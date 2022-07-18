@@ -4,6 +4,7 @@ import './index.css';
 import Heading from './Heading';
 import SearchForm from './SearchForm';
 import reportWebVitals from './reportWebVitals';
+import GithubLink from './GithubLink';
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -11,6 +12,7 @@ root.render(
   <React.StrictMode>
     <Heading />
     <SearchForm />
+    <GithubLink />
   </React.StrictMode>
 );
 
