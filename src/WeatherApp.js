@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import axios from "axios";
 
-export default function SearchForm() {
+
+export default function WeatherApp() {
   let [city, setCity] = useState(null);
   let [weather, setWeather] = useState({});
 
@@ -25,10 +26,12 @@ export default function SearchForm() {
   }
   if (weather.icon) {
     return (
-      <div>
+    
+        <div className="container">
+          <h1>Weather App</h1>
         <form onSubmit={searchCity}>
           <input type="search" onChange={cityName} />
-          <input type="submit" value="search" />
+          <input type="submit" value="search"/>
         </form>
         <ul>
           <li>Temperature: {weather.temperature}ºC</li>
@@ -38,15 +41,18 @@ export default function SearchForm() {
             <img src={weather.icon} alt={weather.description} />
           </li>
         </ul>
+         <a href="https://github.com/JenyaMur/react-weather-app" target="_blank" rel="noopener noreferrer">Open source</a>
       </div>
     );
   } else {
     return (
       <div>
+         <h1>Weather App</h1>
         <form onSubmit={searchCity}>
           <input type="search" onChange={cityName} />
           <input type="submit" value="search" />
         </form>
+        <a href="https://github.com/JenyaMur/react-weather-app" target="_blank" rel="noopener noreferrer">Open source</a>
       </div>
     );
   }

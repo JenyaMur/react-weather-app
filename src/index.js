@@ -1,18 +1,16 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import './index.css';
-import Heading from './Heading';
-import SearchForm from './SearchForm';
+import App from './App';
 import reportWebVitals from './reportWebVitals';
-import GithubLink from './GithubLink';
+
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <Heading />
-    <SearchForm />
-    <GithubLink />
+    <App />
   </React.StrictMode>
 );
 
