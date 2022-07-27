@@ -1,0 +1,47 @@
+.Weather {
+    border: 1px solid rgb(151, 146, 146);
+    border-radius: 5px;
+    padding: 10px;
+}
+.Weather ul {
+    list-style-type: none;
+    padding: 0;
+}
+.Weather .button-row {
+        display: flex;
+        justify-content: space-evenly;
+}
+.Weather .button-search {
+    font-weight: 600;
+}
+.Weather .forecast-row {
+    align-items: center;
+}
+.Weather .current-weather-image {
+    width: 150px;
+}
+.Weather .day-max-temperature,
+.day-min-temperature {
+    border: 1px solid;
+    border-radius: 15px;
+    padding: 5px 15px;
+    width: fit-content;
+    margin: 0;
+}
+.Weather .current-temperature {
+    font-size: 2em;
+}
+.Weather .day-min-temperature {
+    background-color: rgb(219, 219, 248);
+}
+.Weather .day-max-temperature {
+    background-color: rgb(247, 230, 200);
+}
+@media (max-width: 576px) {
+    .Weather {
+        text-align: center;
+    }
+    .Weather .weather-day-info {
+        margin-top: 20px;
+    }
+}

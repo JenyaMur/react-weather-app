@@ -1,47 +1,86 @@
-import React from "react";
+import React, { useState } from "react";
+import CurrentData from "./CurrentData";
+import axios from "axios";
+import "./Weather.css";
 
-export default function Weather() {
-    return (
-        <div>
-            <form>
+export default function Weather(props) {
+    let [city, setCity] = useState(props.defaultCity);
+    let [weatherData, setWeatherData] = useState ({ready: false});
+    function showWeather(response) {
+        setWeatherData ({
+            ready: true,
+            name: response.data.name,
+            temperature: Math.round(response.data.main.temp),
+            feelstemp: Math.round(response.data.main.feels_like),
+            maxtemp: Math.round(response.data.main.temp_max),
+            mintemp: Math.round(response.data.main.temp_min),
+            description: response.data.weather[0].description,
+            humidity: response.data.main.humidity,
+            pressure: response.data.main.pressure,
+            wind: response.data.wind.speed,
+            icon: `http://openweathermap.org/img/wn/${response.data.weather[0].icon}@2x.png`,
+            date: new Date (response.data.dt * 1000)
+        })
+    }
+
+    function searchCity() {
+        let apiKey = `c503fd3e2b61af4d5ffcbbff44f2a89c`;
+        let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
+        axios.get(apiUrl).then(showWeather);
+    }
+
+    function handleSubmit(event) {
+        event.preventDefault();
+        searchCity();
+    }
+    function handleCity(event) {
+        setCity(event.target.value);
+    }
+
+    if (weatherData.ready) {
+          return (
+        <div className="Weather"> 
+            <form onSubmit={handleSubmit}>
                 <div className="row">
-                    <div className="col-9">
-                        <input type="search" placeholder="Enter a city..." className="form-control" />
+                    <div className="col-6 col-md-9">
+                        <input type="search" placeholder="Enter a city..." className="form-control" onChange={handleCity}/>
                     </div>
-                    <div className="col-3">
-                        <input type="submit" value="Search" className="btn btn-primary"/>
-                        <button className="btn btn-primary">My city</button>      
+                    <div className="col-6 col-md-3 button-row">
+                        <input type="submit" value="Search" className="btn btn-primary button-search"/>    
+                         <button className="btn btn-primary button-search">Here</button> 
                     </div>
                 </div>
             </form>
-            <h1>Mislata</h1>
+            <h1 className="mt-3">{weatherData.name}</h1>
             <ul>
-                <li>Tuesday 11:48</li>
-                <li>Clouds</li>
+                <li>
+                    <CurrentData date={weatherData.date} />
+                </li>
+                <li className="text-capitalize">{weatherData.description}</li>
             </ul>
-            <div className="row">
-                <div className="col-4">
-                    <img src="http://openweathermap.org/img/wn/04d@2x.png" alt="Clouds" />
+            <div className="row forecast-row">
+                <div className="col-12 col-sm-3">
+                    <img src={weatherData.icon} alt={weatherData.description} className="current-weather-image" />
                 </div>
-                <div className="col-4">
-                    +18 °C
+                <div className="col-12 col-sm-4 text-center">
+                    <span className="current-temperature"> {weatherData.temperature} °C </span>
                     <div>
-                        +16° +19°
+                        <span className="day-min-temperature"> {weatherData.mintemp}°</span>  <span className="day-max-temperature"> {weatherData.maxtemp}°</span> 
                     </div>
                 </div>
-                <div className="col-4">
+                <div className="col-12 col-sm-5 weather-day-info">
                     <ul>
                         <li>
-                            Visibility: 10.0km
+                            feels: {weatherData.feelstemp}°C
                         </li>
                          <li>
-                             humidity: 72%
+                             humidity: {weatherData.humidity}%
                         </li>
                          <li>
-                            pressure, mm: 1019
+                            pressure, mm: {weatherData.pressure}
                         </li>
                          <li>
-                            wind: 2.06 m/s
+                            wind: {weatherData.wind} m/s
                         </li>
                     </ul>
                 </div>
@@ -49,4 +88,8 @@ export default function Weather() {
 
         </div>
     );
+    } else {
+        searchCity();
+        return "Loading..."
+    }
 }
