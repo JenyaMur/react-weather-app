@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import CurrentData from "./CurrentData";
+import TempConvertation from "./TempConvertation";
 import axios from "axios";
 import "./Weather.css";
 
@@ -62,12 +63,7 @@ export default function Weather(props) {
                 <div className="col-12 col-sm-3">
                     <img src={weatherData.icon} alt={weatherData.description} className="current-weather-image" />
                 </div>
-                <div className="col-12 col-sm-4 text-center">
-                    <span className="current-temperature"> {weatherData.temperature} °C </span>
-                    <div>
-                        <span className="day-min-temperature"> {weatherData.mintemp}°</span>  <span className="day-max-temperature"> {weatherData.maxtemp}°</span> 
-                    </div>
-                </div>
+                <TempConvertation temp={weatherData.temperature} mintemp={weatherData.mintemp} maxtemp={weatherData.maxtemp} />
                 <div className="col-12 col-sm-5 weather-day-info">
                     <ul>
                         <li>
