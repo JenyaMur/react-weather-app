@@ -9,7 +9,7 @@ export default function CurrentData (props) {
         minutes = `0${minutes}`
     }
     if (hours < 10 ) {
-        minutes = `0${hours}`
+        hours = `0${hours}`
     }
     return (
        <div>
