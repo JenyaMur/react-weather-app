@@ -1,15 +1,31 @@
 import React, { useState } from "react";
 import CurrentData from "./CurrentData";
 import TempConvertation from "./TempConvertation";
+import DailyForecast from "./DailyForecast";
 import axios from "axios";
 import "./Weather.css";
+
 
 export default function Weather(props) {
     let [city, setCity] = useState(props.defaultCity);
     let [weatherData, setWeatherData] = useState ({ready: false});
+    let apiKey = `c503fd3e2b61af4d5ffcbbff44f2a89c`;
+
+    function handlePosition(position) {
+  let lat = position.coords.latitude.toFixed(4);
+  let lon = position.coords.longitude.toFixed(4);
+
+  let apiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric`;
+  axios.get(apiUrl).then(showWeather);
+}
+    function checkLocation(event) {
+    event.preventDefault();
+  navigator.geolocation.getCurrentPosition(handlePosition);
+}
     function showWeather(response) {
         setWeatherData ({
             ready: true,
+            coord: response.data.coord,
             name: response.data.name,
             temperature: Math.round(response.data.main.temp),
             feelstemp: Math.round(response.data.main.feels_like),
@@ -25,7 +41,6 @@ export default function Weather(props) {
     }
 
     function searchCity() {
-        let apiKey = `c503fd3e2b61af4d5ffcbbff44f2a89c`;
         let apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
         axios.get(apiUrl).then(showWeather);
     }
@@ -48,7 +63,7 @@ export default function Weather(props) {
                     </div>
                     <div className="col-6 col-md-3 button-row">
                         <input type="submit" value="Search" className="btn btn-primary button-search"/>    
-                         <button className="btn btn-primary button-search">Here</button> 
+                        <button className="btn btn-primary button-search" onClick={checkLocation}>Here</button> 
                     </div>
                 </div>
             </form>
@@ -81,6 +96,7 @@ export default function Weather(props) {
                     </ul>
                 </div>
             </div>
+            <DailyForecast coordinates={weatherData.coord}/>
 
         </div>
     );
